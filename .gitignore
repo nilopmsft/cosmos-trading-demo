@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/stocktrades/appsettings.json
+/stocktrades/wwwroot/js/signalr/dist/browser
