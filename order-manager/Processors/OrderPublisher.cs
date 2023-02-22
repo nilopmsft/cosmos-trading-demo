@@ -1,4 +1,5 @@
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace order_executor.Processors
                 MaxItemsPerInvocation = 100,
                 CreateLeaseContainerIfNotExists = true)]IReadOnlyList<Order> input,
             [EventHub("ems-orderstoexecute", Connection = "ordersHubConnection")] IAsyncCollector<Order> outputOrdersToExecute,
+            
             ILogger log)
         {
             //Process received orders

@@ -41,7 +41,7 @@ namespace order_executor.DataGenerators
         StockPriceSummary current_price;
 
         [FunctionName("OrderGenerator")]
-        public async Task Run([TimerTrigger("0 */1 * * * *")]TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
         {
             if (CustomerIds.Count == 0)
             {
@@ -69,7 +69,7 @@ namespace order_executor.DataGenerators
                     .RuleFor(o => o.status, f => "created")
                     .RuleFor(o => o.createdAt, f => DateTime.UtcNow);
 
-                GeneratedOrders.AddRange(fake_price.GenerateBetween(0, 50));
+                GeneratedOrders.AddRange(fake_price.GenerateBetween(0, 5));
             }
 
             await Parallel.ForEachAsync(GeneratedOrders, async (GeneratedOrder, token) =>
