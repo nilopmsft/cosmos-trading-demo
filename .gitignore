@@ -361,5 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignoring website settings and external client libraries
 /stocktrades/appsettings.json
-/stocktrades/wwwroot/js/signalr/dist/browser
+/stocktrades/wwwroot/lib/
