@@ -1,6 +1,9 @@
 ﻿using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
+using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net;
 using trading_model;
 
 namespace stocktrades.Services
@@ -54,7 +57,7 @@ namespace stocktrades.Services
                 query: user_sql
             );
 
-            using FeedIterator<string> user_feed = portfolio_container.GetItemQueryIterator<string>(
+            using FeedIterator<string> user_feed = user_container.GetItemQueryIterator<string>(
                 queryDefinition: query
             );
 
@@ -75,6 +78,44 @@ namespace stocktrades.Services
         public async Task ClaimUserAsync(Models.User user)
         {
             await user_container.CreateItemAsync(user);
+        }
+
+        public async Task<List<CustomerPortfolio>> GetUserPortfolios(string username)
+        {
+            List<CustomerPortfolio> portfolios = new List<CustomerPortfolio>();
+            try
+            {
+                PartitionKey partitionKey = new PartitionKeyBuilder()
+                 .Add(username)
+                 .Add("equities")
+                 .Build();
+                var query = new QueryDefinition(
+                    query: "SELECT * FROM CustomerPortfolio"
+                );
+                using FeedIterator<CustomerPortfolio> user_feed = portfolio_container.GetItemQueryIterator<CustomerPortfolio>(
+                    queryDefinition: query,
+                    requestOptions: new QueryRequestOptions()
+                    {
+
+                        PartitionKey = partitionKey
+                    }
+                );
+
+                while (user_feed.HasMoreResults)
+                {
+                    var response = await user_feed.ReadNextAsync();
+                    foreach (CustomerPortfolio item in response)
+                    {
+                        portfolios.Add(item);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return portfolios;
         }
     }
 }

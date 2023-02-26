@@ -50,5 +50,14 @@
         "dist/jquery.validate.unobtrusive.js"
       ]
     }
+  ,
+{
+  "provider": "jsdelivr",
+  "library": "echarts@5.4.1",
+  "destination": "wwwroot/lib/echarts/",
+  "files": [
+    "dist/echarts.js"
   ]
+}
+]
 }

@@ -1,10 +1,16 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Stocks!";
+    ViewData["UserId"] = Model.user.userId;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (Model.user != null) 
+{
+    await Html.PartialAsync("Shared/PortfolioView.cshtml", Model.user.portfolio);
+}
+
+@section scripts {
+    <script src="~/lib/echarts/dist/echarts.js"></script>
+    <script src="~/js/marketdata.js"></script>
+}

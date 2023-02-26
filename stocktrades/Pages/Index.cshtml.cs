@@ -11,6 +11,8 @@ namespace stocktrades.Pages
 
         private readonly ICosmosService _cosmosService;
 
+        public Models.User? user { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger, ICosmosService cosmosService)
         {
             _logger = logger;
@@ -28,12 +30,14 @@ namespace stocktrades.Pages
 
                 HttpContext.Session.SetString("userId", user_id);
 
-                await _cosmosService.ClaimUserAsync(new Models.User { userId = user_id, sessionId = HttpContext.Session.Id });
+                this.user = new Models.User(user_id, _cosmosService);
+                this.user.sessionId = HttpContext.Session.Id;
 
-                ViewData["userId"] = user_id;
+                await _cosmosService.ClaimUserAsync(user);
             } else
             {
-                ViewData["userId"] = Encoding.UTF8.GetString(userId);
+                string user_id = (userId == null ? string.Empty : Encoding.UTF8.GetString(userId));
+                this.user = new Models.User(user_id, _cosmosService);
             }
 
 
