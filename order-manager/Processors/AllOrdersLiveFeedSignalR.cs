@@ -30,7 +30,6 @@ namespace order_executor.Processors
                     //Deserialize event to business entity
                     string orderJson = Encoding.UTF8.GetString(eventData.EventBody);
                     var order = JsonConvert.DeserializeObject<Order>(orderJson);
-                    log.LogInformation(orderJson);
                     await outputRealtimeOrderMessages.AddAsync(
                         new SignalRMessage
                         {
