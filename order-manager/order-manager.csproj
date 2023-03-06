@@ -6,6 +6,22 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="DataGenerators\user-generation-words\adjectives.txt" />
+    <None Remove="DataGenerators\user-generation-words\colors.txt" />
+    <None Remove="DataGenerators\user-generation-words\nouns.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataGenerators\user-generation-words\adjectives.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataGenerators\user-generation-words\colors.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataGenerators\user-generation-words\nouns.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.32.1-preview" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="4.0.0-preview3" />

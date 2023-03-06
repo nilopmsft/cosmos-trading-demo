@@ -41,12 +41,16 @@ namespace order_executor.DataGenerators
         StockPriceSummary current_price;
 
         [FunctionName("OrderGenerator")]
-        public async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 */1 * * * *")]TimerInfo myTimer, ILogger log, ExecutionContext ctx)
         {
             if (CustomerIds.Count == 0)
             {
+                string[] adjectives = File.ReadAllLines(Path.Combine(ctx.FunctionAppDirectory, "DataGenerators\\user-generation-words\\adjectives.txt"));
+                string[] colors = File.ReadAllLines(Path.Combine(ctx.FunctionAppDirectory, "DataGenerators\\user-generation-words\\colors.txt"));
+                string[] nouns = File.ReadAllLines(Path.Combine(ctx.FunctionAppDirectory, "DataGenerators\\user-generation-words\\nouns.txt"));
+                
                 var fake_customers = new Faker<customer_id>()
-                    .RuleFor(c => c.id, f => f.Random.Words(3).ToLower().Replace(" ", "-"));
+                    .RuleFor(c => c.id, f => f.PickRandom(adjectives) + "-" + f.PickRandom(colors) + "-" + f.PickRandom(nouns));
                 CustomerIds = fake_customers.Generate(40);
             }
 
