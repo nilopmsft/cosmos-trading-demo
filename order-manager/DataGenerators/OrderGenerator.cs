@@ -52,40 +52,43 @@ namespace order_executor.DataGenerators
 
             current_price = await GetCurrentPrices();
 
-            List<Order> GeneratedOrders = new List<Order>();
-
-            foreach (KeyValuePair<string, AvgPrices> stock in current_price.summary)
+            if (current_price != null && current_price.summary.Count > 0)
             {
-                var fake_price = new Faker<Order>()
-                    .RuleFor(o => o.orderId, f => Guid.NewGuid().ToString())
-                    .RuleFor(o => o.customerId, f => f.PickRandom(CustomerIds).id)
-                    .RuleFor(o => o.quantity, f => f.Random.Number(1, 2500))
-                    .RuleFor(o => o.symbol, stock.Key)
-                    .RuleFor(o => o.action, f => f.PickRandom(new string[] { "buy", "sell" }))
-                    .RuleFor(o => o.price, (f, o) =>
-                        o.action == "buy" ?
-                        f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.01m)) :
-                        f.Random.GaussianDecimal((double)stock.Value.avgAskPrice, (double)(stock.Value.avgAskPrice * 0.01m)))
-                    .RuleFor(o => o.status, f => "created")
-                    .RuleFor(o => o.createdAt, f => DateTime.UtcNow);
+                List<Order> GeneratedOrders = new List<Order>();
 
-                GeneratedOrders.AddRange(fake_price.GenerateBetween(0, 5));
+                foreach (KeyValuePair<string, AvgPrices> stock in current_price.summary)
+                {
+                    var fake_price = new Faker<Order>()
+                        .RuleFor(o => o.orderId, f => Guid.NewGuid().ToString())
+                        .RuleFor(o => o.customerId, f => f.PickRandom(CustomerIds).id)
+                        .RuleFor(o => o.quantity, f => f.Random.Number(1, 2500))
+                        .RuleFor(o => o.symbol, stock.Key)
+                        .RuleFor(o => o.action, f => f.PickRandom(new string[] { "buy", "sell" }))
+                        .RuleFor(o => o.price, (f, o) =>
+                            o.action == "buy" ?
+                            f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.01m)) :
+                            f.Random.GaussianDecimal((double)stock.Value.avgAskPrice, (double)(stock.Value.avgAskPrice * 0.01m)))
+                        .RuleFor(o => o.status, f => "created")
+                        .RuleFor(o => o.createdAt, f => DateTime.UtcNow);
+
+                    GeneratedOrders.AddRange(fake_price.GenerateBetween(0, 5));
+                }
+
+                await Parallel.ForEachAsync(GeneratedOrders, async (GeneratedOrder, token) =>
+                {
+                    try
+                    {
+                        var response = await _httpClient.PostAsJsonAsync<Order>(CreateOrderApiUrl, GeneratedOrder);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.LogError(ex.Message, ex);
+                    }
+
+                });
+
+                log.LogInformation($"Generated {GeneratedOrders.Count} Orders at: {DateTime.Now}");
             }
-
-            await Parallel.ForEachAsync(GeneratedOrders, async (GeneratedOrder, token) =>
-            {
-                try
-                {
-                    var response = await _httpClient.PostAsJsonAsync<Order>(CreateOrderApiUrl, GeneratedOrder);
-                }
-                catch (Exception ex)
-                {
-                    log.LogError(ex.Message, ex);
-                }
-
-            });
-
-            log.LogInformation($"Generated {GeneratedOrders.Count} Orders at: {DateTime.Now}");
         }
 
         public async Task<StockPriceSummary> GetCurrentPrices()

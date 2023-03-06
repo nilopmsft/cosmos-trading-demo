@@ -45,6 +45,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapControllers();
+
 app.UseSession();
 
 app.UseEndpoints(endpoints =>

@@ -6,8 +6,10 @@ namespace stocktrades.Services
     {
         public Task<IEnumerable<string>> RetrieveUnusedUserIdsAsync();
 
-        public Task ClaimUserAsync(Models.User user);
-
         public Task<List<CustomerPortfolio>> GetUserPortfolios(string username);
+
+        public Task<List<StockPrice>> GetStockPriceHistory(string symbol);
+
+        public Task<StockPriceSummary> GetStockPriceSummary();
     }
 }

@@ -1,0 +1,18 @@
+﻿@page "{symbol}"
+@model stocktrades.Pages.StockModel
+@{
+
+}
+<div class="container">
+    <div class="row p-1">
+        <div class="col-6" style="height: 400px;" id="candlestick-chart">
+    </div>
+</div>
+
+</div>
+
+@section scripts {
+    <script src="~/lib/echarts/dist/echarts.js"></script>
+    <script type="text/javascript">var stock_symbol = "@ViewData["symbol"]";</script>
+    <script src="~/js/stocks.js"></script>
+}

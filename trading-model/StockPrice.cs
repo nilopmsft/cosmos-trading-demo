@@ -5,6 +5,7 @@
     /// </summary>
     public class StockPrice
     {
+        public string id { get; set; }
         public string symbol { get; set; }
         public DateTime timestamp { get; set; }
         public decimal lastAskPrice { get; set; }
@@ -15,5 +16,7 @@
         public decimal minBidPrice { get; set; }
         public decimal maxAskPrice { get; set; }
         public decimal maxBidPrice { get; set; }
+        public decimal openPrice { get; set; }
+        public decimal closePrice { get; set; }
     }
 }

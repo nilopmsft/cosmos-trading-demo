@@ -1,23 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using stocktrades.Services;
-using trading_model;
 using System.Text;
 
 namespace stocktrades.Pages
 {
-    public class IndexModel : PageModel
+    public class PortfolioModel : PageModel
     {
-
         private readonly ILogger<IndexModel> _logger;
 
         private readonly ICosmosService _cosmosService;
 
-        public StockPriceSummary summary;
-
         public Models.User? user { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, ICosmosService cosmosService)
+        public PortfolioModel(ILogger<IndexModel> logger, ICosmosService cosmosService)
         {
             _logger = logger;
             _cosmosService = cosmosService;
@@ -36,13 +32,14 @@ namespace stocktrades.Pages
 
                 this.user = new Models.User(user_id, _cosmosService);
                 this.user.sessionId = HttpContext.Session.Id;
-            } else
+            }
+            else
             {
                 string user_id = (userId == null ? string.Empty : Encoding.UTF8.GetString(userId));
                 this.user = new Models.User(user_id, _cosmosService);
             }
 
-            summary = await _cosmosService.GetStockPriceSummary();
+
         }
     }
 }

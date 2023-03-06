@@ -1,0 +1,25 @@
+﻿@page
+@model stocktrades.Pages.PortfolioModel
+@{
+    ViewData["Title"] = "Stocks!";
+    ViewData["UserId"] = Model.user.userId;
+}
+
+@if (Model.user != null)
+{
+    <div class="container">
+        <div class="row" id="charts">
+            @foreach (var portfolio in Model.user.portfolio)
+            {
+                <div class="col-3" style="height: 200px;" id="chart-@portfolio.symbol"></div>
+            }
+        </div>
+    </div>
+    await Html.PartialAsync("Shared/PortfolioView.cshtml", Model.user.portfolio);
+}
+
+@section scripts {
+    <script src="~/lib/echarts/dist/echarts.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/marketdata.js"></script>
+}
