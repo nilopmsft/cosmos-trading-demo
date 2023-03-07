@@ -17,10 +17,10 @@
 @foreach (var item in Model.summary) {
             <tr style="color: @((((item.Value.avgBidPrice + item.Value.avgAskPrice) / 2) > item.Value.openPrice) ? "#5eba7d" : "#b54040")">
             <td>
-                @Html.DisplayFor(modelItem => item.Key)
+                    <a href="/StockSummary/@item.Key">@Html.DisplayFor(modelItem => item.Key)</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Value.avgBidPrice)
+                @((item.Value.avgBidPrice + item.Value.avgAskPrice) / 2)
             </td>
             <td>
                 @Html.ActionLink("Buy", "Buy", new { /* id=item.PrimaryKey */ }) |

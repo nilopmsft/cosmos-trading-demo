@@ -1,0 +1,70 @@
+﻿@model trading_model.StockPrice
+
+
+<div>
+    <h4>Stock Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.timestamp)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.timestamp)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.lastAskPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.lastAskPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.lastBidPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.lastBidPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.avgAskPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.avgAskPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.avgBidPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.avgBidPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.maxAskPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.maxAskPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.maxBidPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.maxBidPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.minAskPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.minAskPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.minBidPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.minBidPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.openPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.openPrice)
+        </dd>
+    </dl>
+</div>
+

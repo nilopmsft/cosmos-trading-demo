@@ -1,0 +1,21 @@
+﻿@page "{symbol}"
+@model stocktrades.Pages.StockSummaryModel
+@{
+    ViewData["UserId"] = Model.user.userId;
+    trading_model.StockPrice stock = (trading_model.StockPrice)ViewData["stock"];
+}
+<h2 id="symbol_title">@stock.symbol</h2>
+<div class="container">
+    <div class="row p-1">
+        <div class="col-6" style="height: 400px;" id="candlestick-chart"></div>
+        <div class="col-6" id="stock_summary">
+            @await Html.PartialAsync("Shared/StockCurrentState.cshtml", stock)
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/echarts/dist/echarts.js"></script>
+    <script type="text/javascript">var stock_symbol = "@stock.symbol";</script>
+    <script src="~/js/stocks.js"></script>
+}

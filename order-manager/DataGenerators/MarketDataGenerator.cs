@@ -62,7 +62,7 @@ namespace order_executor.DataGenerators
                 {
                     log.LogInformation($"Creating starting point for {symbol_hold.symbol}");
                     bool large = (random.NextDouble() > 0.75);
-                    int top = large ? 10000 : 10;
+                    int top = large ? 10000 : 100;
                     int bottom = large ? 1000 : 1;
                     string symbol = symbol_hold.symbol;
                     var fake_price = new Faker<MarketDataFeed>()
@@ -85,10 +85,10 @@ namespace order_executor.DataGenerators
                             .RuleFor(o => o.id, $"{i.Year}-{i.Month}-{i.Day}-{symbol}")
                             .RuleFor(o => o.timestamp, i)
                             .RuleFor(o => o.symbol, symbol)
-                            .RuleFor(o => o.avgBidPrice, f => jump ? f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.50m)) : f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.05m)))
+                            .RuleFor(o => o.avgBidPrice, f => jump ? f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.18m)) : f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.05m)))
                             .RuleFor(o => o.avgAskPrice, (f, o) => o.avgBidPrice + (o.avgBidPrice * f.Random.Decimal(0.005m, 0.15m)))
-                            .RuleFor(o => o.openPrice, f => jump ? f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.50m)) : f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.05m)))
-                            .RuleFor(o => o.closePrice, f => jump ? f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.50m)) : f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.05m)));
+                            .RuleFor(o => o.openPrice, f => jump ? f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.18m)) : f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.05m)))
+                            .RuleFor(o => o.closePrice, f => jump ? f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.18m)) : f.Random.GaussianDecimal((double)root.avgBidPrice, (double)(root.avgBidPrice * 0.05m)));
 
                         await outputMarketData.AddAsync(fake_price_next.Generate());
                     }
@@ -133,10 +133,10 @@ namespace order_executor.DataGenerators
                                         .RuleFor(o => o.id, $"{i.Year}-{i.Month}-{i.Day}-{stock.Key}")
                                         .RuleFor(o => o.timestamp, i)
                                         .RuleFor(o => o.symbol, stock.Key)
-                                        .RuleFor(o => o.avgBidPrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.50m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)))
+                                        .RuleFor(o => o.avgBidPrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.18m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)))
                                         .RuleFor(o => o.avgAskPrice, (f, o) => o.avgBidPrice + (o.avgBidPrice * f.Random.Decimal(0.005m, 0.15m)))
-                                        .RuleFor(o => o.openPrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.50m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)))
-                                        .RuleFor(o => o.closePrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.50m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)));
+                                        .RuleFor(o => o.openPrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.18m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)))
+                                        .RuleFor(o => o.closePrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.18m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)));
 
                                     await outputMarketData.AddAsync(fake_price.Generate());
                                 }
@@ -153,7 +153,7 @@ namespace order_executor.DataGenerators
                             .RuleFor(o => o.id, $"{DateTime.UtcNow.Year}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Day}-{stock.Key}")
                             .RuleFor(o => o.timestamp, DateTime.UtcNow)
                             .RuleFor(o => o.symbol, stock.Key)
-                            .RuleFor(o => o.avgBidPrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.50m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)))
+                            .RuleFor(o => o.avgBidPrice, f => jump ? f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.18m)) : f.Random.GaussianDecimal((double)stock.Value.avgBidPrice, (double)(stock.Value.avgBidPrice * 0.05m)))
                             .RuleFor(o => o.avgAskPrice, (f, o) => o.avgBidPrice + (o.avgBidPrice * f.Random.Decimal(0.005m, 0.15m)))
                             .RuleFor(o => o.openPrice, stock.Value.openPrice)
                             .RuleFor(o => o.closePrice, (f, o) => (o.avgAskPrice + o.avgBidPrice) / 2);

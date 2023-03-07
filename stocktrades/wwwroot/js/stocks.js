@@ -1,5 +1,9 @@
+var chartDom = document.getElementById('candlestick-chart');
+var myChart = echarts.init(chartDom);
+myChart.showLoading();
+
 $.ajax({
-    url: "/api/StockPrices/" + stock_symbol,
+    url: "/api/Stock/" + stock_symbol,
     success: function (result) {
         prices = result;
 
@@ -13,8 +17,6 @@ $.ajax({
             price_history.push([price.closePrice, price.openPrice, price.minAskPrice, price.maxBidPrice]);
         });
 
-        var chartDom = document.getElementById('candlestick-chart');
-        var myChart = echarts.init(chartDom);
         var option;
 
         option = {
@@ -29,7 +31,7 @@ $.ajax({
                 }
             ]
         };
-
+        myChart.hideLoading();
         option && myChart.setOption(option);
     }
 });

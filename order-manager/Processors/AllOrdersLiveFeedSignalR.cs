@@ -19,7 +19,7 @@ namespace order_executor.Processors
     {
         [FunctionName("AllOrdersLiveFeedSignalR")]
         public async static Task Run([EventHubTrigger("ems-orderstoexecute", Connection = "ordersHubConnection", ConsumerGroup = "signalr")] EventData[] events,
-            [SignalR(HubName = "allOrders", ConnectionStringSetting = "ordersSignalRHub")] IAsyncCollector<SignalRMessage> outputRealtimeOrderMessages,
+            [SignalR(HubName = "stockHub", ConnectionStringSetting = "ordersSignalRHub")] IAsyncCollector<SignalRMessage> outputRealtimeOrderMessages,
             ILogger log)
         {
             //Process received events

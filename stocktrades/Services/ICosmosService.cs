@@ -11,5 +11,7 @@ namespace stocktrades.Services
         public Task<List<StockPrice>> GetStockPriceHistory(string symbol);
 
         public Task<StockPriceSummary> GetStockPriceSummary();
+
+        public Task<StockPrice?> GetStockPriceCurrent(string symbol);
     }
 }

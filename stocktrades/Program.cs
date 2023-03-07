@@ -51,7 +51,6 @@ app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<AllOrders>("/allOrders");
     endpoints.MapHub<StockHub>("/stockhub");
 });
 

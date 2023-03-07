@@ -200,5 +200,41 @@ namespace stocktrades.Services
 
             return stocks;
         }
+
+        public async Task<StockPrice?> GetStockPriceCurrent(string symbol)
+        {
+            try
+            {
+                StockPrice? stock_price = null;
+
+                DateTime now = DateTime.UtcNow;
+
+                string stock_date_id = String.Format("{0}-{1}-{2}-{3}", now.Year, now.Month, now.Day, symbol);
+
+                //Lookup (point read) customer portfolio
+                using (var response = await marketdata_container.ReadItemStreamAsync(stock_date_id, new PartitionKey(symbol)))
+                {
+                    if (response.StatusCode != HttpStatusCode.NotFound)
+                    {
+                        //Deserialize portfolio object if already exists for that customer/symbol
+                        JsonSerializer serializer = new JsonSerializer();
+                        using (StreamReader streamReader = new StreamReader(response.Content))
+                        using (var reader = new JsonTextReader(streamReader))
+                        {
+                            stock_price = serializer.Deserialize<StockPrice>(reader);
+                            return stock_price;
+                        }
+                    } else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+        }
     }
 }
